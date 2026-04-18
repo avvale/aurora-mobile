@@ -4,7 +4,7 @@
 
 Expo Router 6 (file-based, tabs), Uniwind + Tailwind v4, Apollo Client 4, react-native-reanimated 4, TypeScript 5.9. Versiones exactas → `package.json`.
 
-- **Estado global — sin decidir**: `src/state/todo-elegir-proveedor-estados-globales.txt` anota "preferiblemente zustand", pero **Zustand no está instalado**. Confirmar con el usuario antes de asumirlo.
+- **Estado global**: Zustand v5 con middlewares `devtools` + `persist` (AsyncStorage). Detalle abajo en _Zustand / Estado global_.
 - **Sin testing framework instalado**. Si piden tests, preguntar stack (Jest + RNTL es lo estándar en Expo).
 
 ## Arquitectura MVVM — regla fundamental
@@ -111,6 +111,16 @@ import { cn } from '@/utils/cn';
 - Services por dominio: `src/services/graphql/[domain]/[entity]_service.ts`
 - **Antes de tocar queries, mutations o auth → invocar skill `apollo-client`.**
 
+## Zustand / Estado global
+
+- Store único: `src/state/store.ts` — combina slices vía spread, con `devtools` + `persist`.
+- Slices por dominio: `src/state/slices/<domain>.slice.ts` — separan **estado** (`counter`) de **acciones** (`counterActions`) para que los consumidores se suscriban sólo al valor.
+- Hooks atómicos: `src/state/hooks/use-<domain>.ts` — **los componentes/ViewModels consumen desde aquí, nunca `useStore` directo**. Devolver objetos nuevos en el selector (`{ a, b }`) rompe la igualdad `===` de Zustand y dispara re-renders cada render: un hook por primitivo, uno por objeto de acciones (estable).
+- Persist: `src/state/storage.ts` envuelve AsyncStorage; en `store.ts` usar `partialize` para decidir qué se guarda (**nunca acciones**) y `migrate` + `version` para cambios de forma.
+- Tipado v5: `create<RootState>()(...)` con doble `()` es obligatorio; cada `SliceCreator` declara los middlewares en el mismo orden que `store.ts`.
+- Nombre de acción en `set(partial, false, 'domain/action')` → aparece en Redux DevTools. Mantenerlo.
+- Reset global: `counterInitialState` se exporta del slice y `rootActions.resetAll` lo reusa — una sola fuente de verdad para el valor inicial.
+
 ## Componentes `@aurora`
 
 `src/@aurora/` — librería interna genérica, sin dependencias del dominio. Recibe `colors`/`texts` por props. **Se trata como lib separada: no importar nada del proyecto hacia dentro de `@aurora`**.
@@ -146,7 +156,9 @@ npm run build:production:ios          # EAS build local (iOS) — para App Store
 5. Añadir `light:` / `dark:` explícitos si ya existe un token — los tokens cambian solos con el tema.
 6. Hacer fetch/red fuera de `src/services/`.
 7. Dejar variables en sólo un variant (light XOR dark) — Uniwind peta en runtime.
-8. Hacer commits sin que el usuario lo pida explícitamente.
+8. Consumir `useStore` directo en componentes o ViewModels — siempre vía hook atómico en `src/state/hooks/`.
+9. Incluir acciones en `partialize` del persist — se serializan y rompen el rehydrate.
+10. Hacer commits sin que el usuario lo pida explícitamente.
 
 ## Flujo esperado del agente
 
