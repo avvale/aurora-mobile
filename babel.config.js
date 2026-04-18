@@ -6,7 +6,7 @@ module.exports = function (api) {
   const isProduction = process.env.NODE_ENV === 'production';
 
   return {
-    presets: [['babel-preset-expo', { jsxImportSource: 'nativewind' }], 'nativewind/babel'],
+    presets: ['babel-preset-expo'],
     plugins: [
       // Solo elimina console.logs en producción
       isProduction && ['transform-remove-console', { exclude: ['error', 'warn'] }],

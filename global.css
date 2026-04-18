@@ -1,3 +1,86 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import 'uniwind';
+
+/*
+  Sistema de colores con soporte de temas.
+
+  Para agregar un nuevo color:
+  1. Define su valor en @variant light y @variant dark.
+  2. Usa la clase directamente: bg-primary, text-content, etc.
+
+  IMPORTANTE: ambos temas deben definir exactamente las mismas variables.
+*/
+
+@layer theme {
+  :root {
+    @variant light {
+      /* Textos */
+      --color-text: #11181c;
+      --color-text-secondary: #687076;
+      --color-text-muted: #9ca3af;
+
+      /* Fondos */
+      --color-background: #ffffff;
+      --color-background-secondary: #f3f4f6;
+      --color-card: #ffffff;
+
+      /* Tint y navegación */
+      --color-tint: #3b82f6;
+      --color-icon: #687076;
+      --color-tab-icon-default: #9ca3af;
+      --color-tab-icon-selected: #3b82f6;
+      --color-tab-bar-background: #ffffff;
+      --color-tab-bar-border: #e5e7eb;
+
+      /* Bordes y separadores */
+      --color-border: #e5e7eb;
+      --color-separator: #f3f4f6;
+
+      /* Estados */
+      --color-primary: #3b82f6;
+      --color-success: #10b981;
+      --color-warning: #f59e0b;
+      --color-error: #ef4444;
+
+      /* Inputs */
+      --color-input-background: #f9fafb;
+      --color-input-border: #d1d5db;
+      --color-placeholder: #9ca3af;
+    }
+
+    @variant dark {
+      /* Textos */
+      --color-text: #f9fafb;
+      --color-text-secondary: #9ca3af;
+      --color-text-muted: #6b7280;
+
+      /* Fondos */
+      --color-background: #111827;
+      --color-background-secondary: #1f2937;
+      --color-card: #1f2937;
+
+      /* Tint y navegación */
+      --color-tint: #60a5fa;
+      --color-icon: #9ca3af;
+      --color-tab-icon-default: #6b7280;
+      --color-tab-icon-selected: #60a5fa;
+      --color-tab-bar-background: #1f2937;
+      --color-tab-bar-border: #374151;
+
+      /* Bordes y separadores */
+      --color-border: #374151;
+      --color-separator: #1f2937;
+
+      /* Estados */
+      --color-primary: #60a5fa;
+      --color-success: #34d399;
+      --color-warning: #fbbf24;
+      --color-error: #f87171;
+
+      /* Inputs */
+      --color-input-background: #374151;
+      --color-input-border: #4b5563;
+      --color-placeholder: #6b7280;
+    }
+  }
+}
