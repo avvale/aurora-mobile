@@ -129,12 +129,12 @@ import '@root/global.css'; // raíz del repo
 npm start                             # expo start
 npm run ios                           # expo start --ios
 npm run android                       # expo start --android
-npm run web                           # expo start --web
 npm run lint                          # expo lint (eslint)
 npx expo start --clear                # limpiar caché Metro (tras tocar global.css)
 lsof -ti:8081 | xargs kill -9         # matar Metro colgado
-npm run build:preview:ios             # EAS build local (iOS)
-npm run build:preview:android         # EAS build local (Android)
+npm run build:preview:android         # EAS build local (Android) — APK preview interno
+npm run build:production:android      # EAS build local (Android) — AAB para Play Store
+npm run build:production:ios          # EAS build local (iOS) — para App Store
 ```
 
 ## Reglas estrictas — NUNCA
