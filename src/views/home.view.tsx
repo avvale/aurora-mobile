@@ -46,18 +46,6 @@ export function HomeView() {
           />
         </View>
 
-        {/* DatePicker */}
-        <View className="w-full px-4 mb-8">
-          <DatePickerInput
-            label="Fecha de nacimiento"
-            placeholder="Selecciona una fecha"
-            value={selectedDate}
-            onChange={setSelectedDate}
-            colors={datePickerColors}
-            texts={{ cancel: 'Cancelar', confirm: 'Confirmar' }}
-          />
-        </View>
-
         {/* Contador */}
         <View className="w-full max-w-xs p-6 mb-8 rounded-2xl bg-primary">
           <Text className="mb-2 text-lg text-center text-white">Contador</Text>
